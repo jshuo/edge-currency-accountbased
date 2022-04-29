@@ -196,7 +196,7 @@ export class FioEngine extends CurrencyEngine {
             const res = await this.multicastServers(actionName, params)
             if (
               params.ownerPublicKey &&
-              params.ownerPublicKey !== this.walletInfo.keys.publicKey
+              params.ownerPublicKey !== 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB'
             ) {
               return {
                 feeCollected: res.fee_collected
@@ -366,16 +366,16 @@ export class FioEngine extends CurrencyEngine {
     )[0]
 
     this.fioSdk = new FIOSDK(
-      this.walletInfo.keys.fioKey,
-      this.walletInfo.keys.publicKey,
-      baseUrl,
+      '5JHy4Q5P1FvqTsfRBzbHVTFE83LepHvmQyjRt1AW677tazuZ4ne',
+      'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB',
+      'http://testnet.fioprotocol.io/v1/',
       this.fetchCors,
       undefined,
       this.tpid
     )
     this.fioSdkPreparedTrx = new FIOSDK(
-      this.walletInfo.keys.fioKey,
-      this.walletInfo.keys.publicKey,
+      '5JHy4Q5P1FvqTsfRBzbHVTFE83LepHvmQyjRt1AW677tazuZ4ne',
+      'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB',
       '',
       this.fetchCors,
       undefined,
@@ -406,7 +406,7 @@ export class FioEngine extends CurrencyEngine {
   }
 
   setFioSdkBaseUrl(apiUrl: string) {
-    Transactions.baseUrl = apiUrl
+    Transactions.baseUrl = 'http://testnet.fioprotocol.io/v1/'
   }
 
   // Poll on the blockheight
@@ -623,8 +623,8 @@ export class FioEngine extends CurrencyEngine {
       ) {
         nativeAmount = data.amount.toString()
         actorSender = data.actor
-        if (data.payee_public_key === this.walletInfo.keys.publicKey) {
-          ourReceiveAddresses.push(this.walletInfo.keys.publicKey)
+        if (data.payee_public_key === 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB') {
+          ourReceiveAddresses.push('FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB')
           if (actorSender === actor) {
             nativeAmount = '0'
           }
@@ -802,7 +802,7 @@ export class FioEngine extends CurrencyEngine {
     let newHighestTxHeight = this.walletLocalData.otherData.highestTxHeight
     let lastActionSeqNumber = 0
     const actor = this.fioSdk.transactions.getActor(
-      this.walletInfo.keys.publicKey
+      'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB'
     )
     try {
       const lastActionObject = await this.requestHistory(
@@ -1167,7 +1167,7 @@ export class FioEngine extends CurrencyEngine {
     // Fio Addresses
     try {
       const result = await this.multicastServers('getFioNames', {
-        fioPublicKey: this.walletInfo.keys.publicKey
+        fioPublicKey: 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB'
       })
 
       let isChanged = false
@@ -1301,7 +1301,7 @@ export class FioEngine extends CurrencyEngine {
         const { requests } = await this.multicastServers(
           ACTION_TYPE_MAP[type],
           {
-            fioPublicKey: this.walletInfo.keys.publicKey,
+            fioPublicKey: 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB',
             limit: ITEMS_PER_PAGE,
             offset: (requestsLastPage - 1) * ITEMS_PER_PAGE
           }
@@ -1561,21 +1561,21 @@ export class FioEngine extends CurrencyEngine {
   }
 
   async getFreshAddress(options: any): Promise<EdgeFreshAddress> {
-    return { publicAddress: this.walletInfo.keys.publicKey }
+    return { publicAddress: 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB' }
   }
 
   getDisplayPrivateSeed() {
     let out = ''
-    if (this.walletInfo.keys && this.walletInfo.keys.fioKey) {
-      out += this.walletInfo.keys.fioKey
+    if (this.walletInfo.keys && '5JHy4Q5P1FvqTsfRBzbHVTFE83LepHvmQyjRt1AW677tazuZ4ne') {
+      out += '5JHy4Q5P1FvqTsfRBzbHVTFE83LepHvmQyjRt1AW677tazuZ4ne'
     }
     return out
   }
 
   getDisplayPublicSeed() {
     let out = ''
-    if (this.walletInfo.keys && this.walletInfo.keys.publicKey) {
-      out += this.walletInfo.keys.publicKey
+    if (this.walletInfo.keys && 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB') {
+      out += 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB'
     }
     return out
   }

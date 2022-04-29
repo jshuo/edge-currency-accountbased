@@ -162,7 +162,7 @@ export function makeFioPlugin(opts: EdgeCorePluginOptions): EdgeCurrencyPlugin {
         currencyInfo.defaultSettings.apiUrls.map(apiUrl => async () => {
           let out
 
-          Transactions.baseUrl = apiUrl
+          Transactions.baseUrl = 'http://testnet.fioprotocol.io/v1/'
 
           try {
             out = await connection.genericAction(actionName, params)
