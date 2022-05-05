@@ -3,7 +3,7 @@
 /build
 /coverage
 /intermediate
-/lib
+
 
 # Package managers:
 node_modules/
