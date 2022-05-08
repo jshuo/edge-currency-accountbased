@@ -1556,7 +1556,7 @@ export class FioEngine extends CurrencyEngine {
     edgeTransaction.date = Date.now() / 1000
     edgeTransaction.blockHeight = trx.block_num
     this.warn(`SUCCESS broadcastTx\n${cleanTxLogs(edgeTransaction)}`)
-
+    this.warn(`SecuX SUCCESS broadcastTx\n`)
     return edgeTransaction
   }
 
