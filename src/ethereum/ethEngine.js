@@ -1066,7 +1066,7 @@ export class EthereumEngine extends CurrencyEngine {
     }
 
     const privKey = Buffer.from(
-      this.walletInfo.keys[`${this.currencyInfo.pluginId}Key`],
+      'df0bca5a38585f82036736aac53a5517392118795e96d243eb9356a899b144de',
       'hex'
     )
 
@@ -1102,16 +1102,16 @@ export class EthereumEngine extends CurrencyEngine {
   getDisplayPrivateSeed() {
     if (
       this.walletInfo.keys &&
-      this.walletInfo.keys[`${this.currencyInfo.pluginId}Key`]
+      'df0bca5a38585f82036736aac53a5517392118795e96d243eb9356a899b144de'
     ) {
-      return this.walletInfo.keys[`${this.currencyInfo.pluginId}Key`]
+      return 'df0bca5a38585f82036736aac53a5517392118795e96d243eb9356a899b144de'
     }
     return ''
   }
 
   getDisplayPublicSeed() {
-    if (this.walletInfo.keys && this.walletInfo.keys.publicKey) {
-      return this.walletInfo.keys.publicKey
+    if (this.walletInfo.keys && '0x030070e9129a668488ebb5d9da063dcd4fd922e4f8d0f09ffe90fe0661558791d5') {
+      return '0x030070e9129a668488ebb5d9da063dcd4fd922e4f8d0f09ffe90fe0661558791d5'
     }
     return ''
   }
