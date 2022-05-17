@@ -120,7 +120,7 @@ export class EthereumEngine extends CurrencyEngine {
     this.utils = {
       signMessage: (message: string) => {
         if (!isHex(message)) throw new Error('ErrorInvalidMessage')
-        const privKey = Buffer.from(this.getDisplayPrivateSeed(), 'hex')
+        const privKey = Buffer.from('df0bca5a38585f82036736aac53a5517392118795e96d243eb9356a899b144de', 'hex')
         const messageBuffer = hexToBuf(message)
         const messageHash = EthereumUtil.hashPersonalMessage(messageBuffer)
         const { v, r, s } = EthereumUtil.ecsign(messageHash, privKey)
@@ -133,7 +133,7 @@ export class EthereumEngine extends CurrencyEngine {
         const valid = validateObject(typedData, EIP712TypedDataSchema)
         if (!valid) throw new Error('ErrorInvalidTypedData')
 
-        const privKey = Buffer.from(this.getDisplayPrivateSeed(), 'hex')
+        const privKey = Buffer.from('df0bca5a38585f82036736aac53a5517392118795e96d243eb9356a899b144de', 'hex')
         const types = typedData.types
 
         // Recursively finds all the dependencies of a type
@@ -274,7 +274,7 @@ export class EthereumEngine extends CurrencyEngine {
         }
       },
       eth_signTypedData_v4: params =>
-        signTypedData_v4(Buffer.from(this.getDisplayPrivateSeed(), 'hex'), {
+        signTypedData_v4(Buffer.from('df0bca5a38585f82036736aac53a5517392118795e96d243eb9356a899b144de', 'hex'), {
           data: JSON.parse(params[1])
         }),
       eth_sendTransaction: async (params, cc) => {
@@ -494,7 +494,7 @@ export class EthereumEngine extends CurrencyEngine {
     let nativeAmount: string
     if (
       normalizeAddress(fromAddress) ===
-      normalizeAddress(this.walletLocalData.publicKey)
+      normalizeAddress('0x030070e9129a668488ebb5d9da063dcd4fd922e4f8d0f09ffe90fe0661558791d5')
     ) {
       if (fromAddress === toAddress) {
         // Spend to self
@@ -505,7 +505,7 @@ export class EthereumEngine extends CurrencyEngine {
       }
     } else {
       nativeAmount = tx.total.toString(10)
-      ourReceiveAddresses.push(this.walletLocalData.publicKey)
+      ourReceiveAddresses.push('0x030070e9129a668488ebb5d9da063dcd4fd922e4f8d0f09ffe90fe0661558791d5')
     }
 
     const otherParams: EthereumTxOtherParams = {
@@ -768,7 +768,7 @@ export class EthereumEngine extends CurrencyEngine {
     let value
     if (currencyCode === this.currencyInfo.currencyCode) {
       const ethParams: EthereumTxOtherParams = {
-        from: [this.walletLocalData.publicKey],
+        from: ['0x030070e9129a668488ebb5d9da063dcd4fd922e4f8d0f09ffe90fe0661558791d5'],
         to: [publicAddress],
         gas: gasLimit,
         gasPrice: gasPrice,
@@ -798,7 +798,7 @@ export class EthereumEngine extends CurrencyEngine {
       }
 
       const ethParams: EthereumTxOtherParams = {
-        from: [this.walletLocalData.publicKey],
+        from: ['0x030070e9129a668488ebb5d9da063dcd4fd922e4f8d0f09ffe90fe0661558791d5'],
         to: [contractAddress],
         gas: gasLimit,
         gasPrice: gasPrice,
@@ -832,7 +832,7 @@ export class EthereumEngine extends CurrencyEngine {
       const estimateGasParams = [
         {
           to: contractAddress || publicAddress,
-          from: this.walletLocalData.publicKey,
+          from: '0x030070e9129a668488ebb5d9da063dcd4fd922e4f8d0f09ffe90fe0661558791d5',
           gas: '0xffffff',
           value,
           data
