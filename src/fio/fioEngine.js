@@ -196,7 +196,7 @@ export class FioEngine extends CurrencyEngine {
             const res = await this.multicastServers(actionName, params)
             if (
               params.ownerPublicKey &&
-              params.ownerPublicKey !== 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB'
+              params.ownerPublicKey !== this.walletInfo.keys.publicKey
             ) {
               return {
                 feeCollected: res.fee_collected
@@ -366,17 +366,17 @@ export class FioEngine extends CurrencyEngine {
     )[0]
 
     this.fioSdk = new FIOSDK(
-      '5JHy4Q5P1FvqTsfRBzbHVTFE83LepHvmQyjRt1AW677tazuZ4ne',
-      'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB',
-      'http://testnet.fioprotocol.io/v1/',
+      this.walletInfo.keys.fioKey,
+      this.walletInfo.keys.publicKey,
+      baseUrl,
       this.fetchCors,
       undefined,
       this.tpid
     )
     this.fioSdkPreparedTrx = new FIOSDK(
-      '5JHy4Q5P1FvqTsfRBzbHVTFE83LepHvmQyjRt1AW677tazuZ4ne',
-      'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB',
-      '',
+      this.walletInfo.keys.fioKey,
+      this.walletInfo.keys.publicKey,
+      baseUrl,
       this.fetchCors,
       undefined,
       this.tpid,
@@ -406,7 +406,7 @@ export class FioEngine extends CurrencyEngine {
   }
 
   setFioSdkBaseUrl(apiUrl: string) {
-    Transactions.baseUrl = 'http://testnet.fioprotocol.io/v1/'
+    Transactions.baseUrl = apiUrl
   }
 
   // Poll on the blockheight
@@ -623,8 +623,8 @@ export class FioEngine extends CurrencyEngine {
       ) {
         nativeAmount = data.amount.toString()
         actorSender = data.actor
-        if (data.payee_public_key === 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB') {
-          ourReceiveAddresses.push('FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB')
+        if (data.payee_public_key === this.walletInfo.keys.publicKey) {
+          ourReceiveAddresses.push(this.walletInfo.keys.publicKey)
           if (actorSender === actor) {
             nativeAmount = '0'
           }
@@ -802,7 +802,7 @@ export class FioEngine extends CurrencyEngine {
     let newHighestTxHeight = this.walletLocalData.otherData.highestTxHeight
     let lastActionSeqNumber = 0
     const actor = this.fioSdk.transactions.getActor(
-      'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB'
+      this.walletInfo.keys.publicKey
     )
     try {
       const lastActionObject = await this.requestHistory(
@@ -1167,7 +1167,7 @@ export class FioEngine extends CurrencyEngine {
     // Fio Addresses
     try {
       const result = await this.multicastServers('getFioNames', {
-        fioPublicKey: 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB'
+        fioPublicKey: this.walletInfo.keys.publicKey
       })
 
       let isChanged = false
@@ -1301,7 +1301,7 @@ export class FioEngine extends CurrencyEngine {
         const { requests } = await this.multicastServers(
           ACTION_TYPE_MAP[type],
           {
-            fioPublicKey: 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB',
+            fioPublicKey: this.walletInfo.keys.publicKey,
             limit: ITEMS_PER_PAGE,
             offset: (requestsLastPage - 1) * ITEMS_PER_PAGE
           }
@@ -1314,7 +1314,7 @@ export class FioEngine extends CurrencyEngine {
         }
       } catch (e) {
         lastPageAmount = 0
-        // this.error('fetchFioRequests error: ', e)
+        this.error('fetchFioRequests error: ', e)
       }
     }
 
@@ -1556,26 +1556,26 @@ export class FioEngine extends CurrencyEngine {
     edgeTransaction.date = Date.now() / 1000
     edgeTransaction.blockHeight = trx.block_num
     this.warn(`SUCCESS broadcastTx\n${cleanTxLogs(edgeTransaction)}`)
-    this.warn(`SecuX SUCCESS broadcastTx\n`)
+
     return edgeTransaction
   }
 
   async getFreshAddress(options: any): Promise<EdgeFreshAddress> {
-    return { publicAddress: 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB' }
+    return { publicAddress: this.walletInfo.keys.publicKey }
   }
 
   getDisplayPrivateSeed() {
     let out = ''
-    if (this.walletInfo.keys && '5JHy4Q5P1FvqTsfRBzbHVTFE83LepHvmQyjRt1AW677tazuZ4ne') {
-      out += '5JHy4Q5P1FvqTsfRBzbHVTFE83LepHvmQyjRt1AW677tazuZ4ne'
+    if (this.walletInfo.keys && this.walletInfo.keys.fioKey) {
+      out += this.walletInfo.keys.fioKey
     }
     return out
   }
 
   getDisplayPublicSeed() {
     let out = ''
-    if (this.walletInfo.keys && 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB') {
-      out += 'FIO6QhxLWAVaydsgbGWYaS9rcVBMytHK34jDkTWdboSspCKMaYDmB'
+    if (this.walletInfo.keys && this.walletInfo.keys.publicKey) {
+      out += this.walletInfo.keys.publicKey
     }
     return out
   }
