@@ -142,7 +142,7 @@ export class FioPlugin extends CurrencyPlugin {
 export function makeFioPlugin(opts: EdgeCorePluginOptions): EdgeCurrencyPlugin {
   const { initOptions, io } = opts
   const { fetchCors = io.fetch } = io
-  const { tpid = 'finance@edge', fioRegApiToken = FIO_REG_SITE_API_KEY } =
+  const { tpid = 'secux@testnet', fioRegApiToken = FIO_REG_SITE_API_KEY } =
     initOptions
   const connection = new FIOSDK('', '', '', fetchCors, undefined, tpid)
 
